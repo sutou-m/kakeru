@@ -66,3 +66,30 @@ body {
   color: var(--color-dark);
   font-family: var(--font-sans);
 }
+
+/* ── 印刷用スタイル ── */
+@media print {
+  /* サイドバー・ナビ・印刷ボタンなど非表示 */
+  .no-print {
+    display: none !important;
+  }
+
+  /* 背景・マージンをリセット */
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* A4 サイズ・余白 */
+  @page {
+    size: A4 portrait;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+
+  /* ページまたぎを防ぐ */
+  table { page-break-inside: avoid; }
+  tr    { page-break-inside: avoid; }
+}
