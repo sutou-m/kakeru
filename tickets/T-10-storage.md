@@ -11,9 +11,9 @@
 - T-03完了済みであること
 
 ## 完了条件
-- [ ] Supabase Storageに `kak-receipts` バケットが作成されている（非公開）
-- [ ] 画像アップロードのServer Actionが動作する
-- [ ] アップロード上限が10MBに設定されている
+- [ ] Supabase Storageに `kak-receipts` バケットが作成されている（非公開）← 管理画面から手動で作成
+- [x] 画像アップロードのServer Actionが動作する
+- [x] アップロード上限が10MBに設定されている
 
 ## 実装内容
 

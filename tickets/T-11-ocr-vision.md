@@ -16,9 +16,9 @@ GOOGLE_CLOUD_VISION_API_KEY=AIza...
 ```
 
 ## 完了条件
-- [ ] 画像からテキストが抽出できる
-- [ ] 抽出結果が `receipts.ocr_raw_text` に保存される
-- [ ] APIエラー時に適切なエラーメッセージが表示される
+- [x] 画像からテキストが抽出できる
+- [x] 抽出結果が `receipts.ocr_raw_text` に保存される
+- [x] APIエラー時に適切なエラーメッセージが表示される
 
 ## 実装内容
 
