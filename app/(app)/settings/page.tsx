@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { CategoryManager } from '@/components/settings/CategoryManager'
+import { EmailSection } from '@/components/settings/EmailSection'
 
 export default async function SettingsPage() {
   const session = await auth()
@@ -29,6 +30,12 @@ export default async function SettingsPage() {
           incomeCategories={incomeCategories}
           expenseCategories={expenseCategories}
         />
+      </Card>
+
+      {/* メール通知 */}
+      <Card>
+        <h2 className="text-base font-semibold text-[#2D3B3B] mb-5">メール通知</h2>
+        <EmailSection adminEmail={process.env.ADMIN_EMAIL ?? ''} />
       </Card>
     </div>
   )
