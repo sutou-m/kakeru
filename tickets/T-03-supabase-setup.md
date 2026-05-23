@@ -203,3 +203,20 @@ SupabaseCLIで自動生成するか、手動で作成する。
 - テーブル作成後は必ずRLSを有効化してからポリシーを追加する
 - `supabaseAdmin`（service key）はServer Actionのみで使用。クライアントに露出させない
 - Supabase Storage バケット `kak-receipts` も作成し、非公開設定にする
+- 日本語の初期データ（INSERT文）はClaude CodeのSQLではなく、
+  Supabase管理画面のSQL Editorで直接実行すること
+  （Claude Code経由だと文字コードの問題で???に文字化けする場合がある）
+- `kak_tax_years` にアクティブな年度データがないと収支登録時にエラーになる。
+  初回ユーザー登録後、以下のSQLで年度データを手動投入する（開発環境）：
+
+  ```sql
+  insert into kak_tax_years (user_id, year, declaration_type, is_active)
+  values (
+    (select id from kak_users limit 1),
+    2026,
+    'white',
+    true
+  );
+  ```
+
+  本番では /settings の年度設定画面から自動作成する（T-17で実装）

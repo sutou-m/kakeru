@@ -93,7 +93,7 @@ export default async function TransactionsPage({
       </div>
 
       {rows.length === 0 ? (
-        <EmptyState />
+        <EmptyState filter={filter} />
       ) : (
         <>
           {/* テーブル */}
@@ -192,16 +192,26 @@ function formatDate(dateStr: string): string {
   return `${Number(m)}/${Number(d)}`
 }
 
-function EmptyState() {
+const EMPTY_MESSAGES: Record<FilterType, string> = {
+  all: '収支データがありません',
+  income: '収入データがありません',
+  expense: '支出データがありません',
+}
+
+function EmptyState({ filter }: { filter: FilterType }) {
   return (
     <Card>
       <div className="flex flex-col items-center justify-center py-14 text-center">
         <div className="w-14 h-14 bg-[#F5E6D8] rounded-full flex items-center justify-center mb-4">
           <ReceiptText size={28} className="text-[#E8884A]" />
         </div>
-        <h3 className="text-base font-semibold text-[#2D3B3B] mb-2">収支データがありません</h3>
+        <h3 className="text-base font-semibold text-[#2D3B3B] mb-2">
+          {EMPTY_MESSAGES[filter]}
+        </h3>
         <p className="text-sm text-[#C4B49A] mb-6 max-w-xs leading-relaxed">
-          「新規登録」から収入・支出を記録するか、領収書をアップロードしてください。
+          {filter === 'all'
+            ? '「新規登録」から収入・支出を記録するか、領収書をアップロードしてください。'
+            : '他のタブに切り替えるか、「新規登録」からデータを追加してください。'}
         </p>
         <Link
           href="/transactions/new"
