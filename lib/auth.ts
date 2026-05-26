@@ -11,6 +11,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { type: 'password' },
       },
       async authorize(credentials) {
+        console.log('[auth] ENV CHECK', {
+          hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+          hasServiceKey: !!process.env.SUPABASE_SERVICE_KEY,
+        })
+
         const email = credentials?.email as string | undefined
         const password = credentials?.password as string | undefined
 
