@@ -12,8 +12,8 @@ export async function loginAction(
 ): Promise<string | null> {
   try {
     await signIn('credentials', {
-      email: formData.get('email') as string,
-      password: formData.get('password') as string,
+      email: (formData.get('email') as string).trim(),
+      password: (formData.get('password') as string).trim(),
       redirectTo: '/dashboard',
     })
   } catch (error) {

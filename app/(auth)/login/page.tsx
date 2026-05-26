@@ -27,6 +27,9 @@ export default function LoginPage() {
               placeholder="you@example.com"
               required
               autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              inputMode="email"
             />
             <Input
               type="password"
@@ -35,6 +38,8 @@ export default function LoginPage() {
               placeholder="••••••••"
               required
               autoComplete="current-password"
+              autoCapitalize="none"
+              autoCorrect="off"
             />
             {error && (
               <p className="text-sm text-[#DC2626] bg-red-50 px-3 py-2 rounded-[6px]">
