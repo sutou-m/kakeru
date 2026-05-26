@@ -16,7 +16,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           hasServiceKey: !!process.env.SUPABASE_SERVICE_KEY,
         })
 
-        const email = credentials?.email as string
+        const email = (credentials?.email as string).toLowerCase().trim()
         const password = credentials?.password as string
 
         console.log('[auth] credentials:', {
