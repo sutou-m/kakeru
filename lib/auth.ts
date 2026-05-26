@@ -16,41 +16,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           hasServiceKey: !!process.env.SUPABASE_SERVICE_KEY,
         })
 
-        const email = credentials?.email as string | undefined
-        const password = credentials?.password as string | undefined
-
-        console.log('[auth] authorize called', {
-          email,
-          passwordLength: password?.length ?? 0,
-          passwordBytes: password ? Buffer.from(password).length : 0,
+        console.log('[auth] credentials:', {
+          email: credentials?.email,
+          hasPassword: !!credentials?.password,
         })
 
-        if (!email || !password) {
-          console.log('[auth] missing credentials')
-          return null
-        }
+        if (!credentials?.email || !credentials?.password) return null
 
-        const query = supabaseAdmin
+        const { data: user, error } = await supabaseAdmin
           .from('kak_users')
-          .select('id, email, name, auth_password')
-          .eq('email', email)
+          .select('*')
+          .eq('email', credentials.email)
           .single()
 
-        console.log('[auth] querying kak_users for email:', email)
-
-        const { data: user, error: dbError } = await query
-
-        console.log('[auth] db result', {
+        console.log('[auth] user query result:', {
           found: !!user,
-          hasPassword: !!user?.auth_password,
-          dbError: dbError?.message ?? null,
+          error: error?.message,
         })
 
-        if (!user?.auth_password) return null
+        if (!user) return null
 
-        const isValid = await bcrypt.compare(password, user.auth_password)
-
-        console.log('[auth] bcrypt.compare result:', isValid)
+        const isValid = await bcrypt.compare(credentials.password as string, user.auth_password)
+        console.log('[auth] bcrypt result:', isValid)
 
         if (!isValid) return null
 
