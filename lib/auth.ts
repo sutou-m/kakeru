@@ -37,9 +37,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           error: error?.message,
         })
 
-        if (!user) return null
+        if (!user || !user.auth_password) return null
 
-        const isValid = await bcrypt.compare(password, user.auth_password)
+        const isValid = await bcrypt.compare(password, user.auth_password as string)
         console.log('[auth] bcrypt result:', isValid)
 
         if (!isValid) return null
