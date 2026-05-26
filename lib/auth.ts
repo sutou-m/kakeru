@@ -16,17 +16,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           hasServiceKey: !!process.env.SUPABASE_SERVICE_KEY,
         })
 
+        const email = credentials?.email as string
+        const password = credentials?.password as string
+
         console.log('[auth] credentials:', {
-          email: credentials?.email,
-          hasPassword: !!credentials?.password,
+          email,
+          hasPassword: !!password,
         })
 
-        if (!credentials?.email || !credentials?.password) return null
+        if (!email || !password) return null
 
         const { data: user, error } = await supabaseAdmin
           .from('kak_users')
           .select('*')
-          .eq('email', credentials.email)
+          .eq('email', email)
           .single()
 
         console.log('[auth] user query result:', {
@@ -36,7 +39,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!user) return null
 
-        const isValid = await bcrypt.compare(credentials.password as string, user.auth_password)
+        const isValid = await bcrypt.compare(password, user.auth_password)
         console.log('[auth] bcrypt result:', isValid)
 
         if (!isValid) return null
